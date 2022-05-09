@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block title %}
+Main
+{% endblock %}
+
+{% block content %}
+
+{% include "buttons/profilebutton.html" %}
+{% include "buttons/logoutbutton.html" %}
+
+<h1>
+  MAIN
+</h1>
+<p>
+  Hell o
+  I'm
+  {{ user }}
+  And I can do this:
+</p>
+<a href="{% url 'therapy:diseases' %}">Diseases</a>
+<a href="{% url 'therapy:symptoms' %}">Symptoms</a>
+
+{% endblock %}
