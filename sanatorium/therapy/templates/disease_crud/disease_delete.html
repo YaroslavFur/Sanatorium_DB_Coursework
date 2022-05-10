@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block title %}
+Delete {{ disease.name }}
+{% endblock %}
+
+{% block content %}
+
+{% include "buttons/mainbutton.html" %}
+{% include "buttons/myprofilebutton.html" %}
+{% include "buttons/logoutbutton.html" %}
+
+<h1>Delete {{ disease.name }}</h1>
+
+<form method="post">
+  {% csrf_token %}
+  <p>Delete {{ disease }}?</p>
+  <button type="submit">Delete</button>
+</form>
+
+{% endblock %}

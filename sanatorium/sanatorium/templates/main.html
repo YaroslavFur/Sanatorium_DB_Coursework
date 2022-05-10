@@ -6,7 +6,7 @@ Main
 
 {% block content %}
 
-{% include "buttons/profilebutton.html" %}
+{% include "buttons/myprofilebutton.html" %}
 {% include "buttons/logoutbutton.html" %}
 
 <h1>
@@ -18,7 +18,14 @@ Main
   {{ user }}
   And I can do this:
 </p>
-<a href="{% url 'therapy:diseases' %}">Diseases</a>
-<a href="{% url 'therapy:symptoms' %}">Symptoms</a>
+<a href="{% url 'users:user_list' %}">Users</a>
+<a href="{% url 'therapy:disease_list' %}">Diseases</a>
+<a href="{% url 'therapy:symptom_list' %}">Symptoms</a>
+{% if user.employee %}
+<a href="{% url 'users:patient_list' %}">Patients</a>
+{% endif %}
+{% if user.employee.speciality == "manager" %}
+<a href="{% url 'users:employee_list' %}">Employees</a>
+{% endif %}
 
 {% endblock %}

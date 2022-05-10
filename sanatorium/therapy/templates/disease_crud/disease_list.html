@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block title %}
+Diseases
+{% endblock %}
+
+{% block content %}
+
+{% include "buttons/mainbutton.html" %}
+{% include "buttons/myprofilebutton.html" %}
+{% include "buttons/logoutbutton.html" %}
+
+<h1>Diseases</h1>
+
+<table>
+  <tr class="first-table-row">
+    <th>№</th>
+    <th>Name</th>
+    <th>Description</th>
+  </tr>
+
+  {% for disease in disease_list %}
+    <tr>
+      <td>{{ forloop.counter }}</td>
+      <td>{{ disease.name }}</td>
+      <td>
+        {% if disease.description_ref is not None %}
+          <a href="{{ disease.description_ref }}">
+            {{ disease.description_ref }}
+          </a>
+        {% endif %}
+      </td>
+      {% if user.employee %}
+        <td>
+          <form action="{% url 'therapy:disease_update' disease.id %}">
+            <button type="submit">Edit</button>
+          </form>
+        </td>
+        <td>
+          <form action="{% url 'therapy:disease_delete' disease.id %}">
+            <button type="submit">Delete</button>
+          </form>
+        </td>
+      {% endif %}
+    </tr>
+  {% endfor %}
+</table>
+{% if user.employee %}
+  <form action="{% url 'therapy:disease_create' %}">
+    <button type="submit">Add Disease</button>
+  </form>
+{% endif %}
+
+{% endblock %}

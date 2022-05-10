@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block title %}
+New Patient
+{% endblock %}
+
+{% block content %}
+
+{% include "buttons/mainbutton.html" %}
+{% include "buttons/myprofilebutton.html" %}
+{% include "buttons/logoutbutton.html" %}
+
+<h1>New Patient</h1>
+
+<form method="post">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit">Take</button>
+</form>
+
+{% endblock %}

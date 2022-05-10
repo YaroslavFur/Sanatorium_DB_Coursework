@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% block title %}
+Patients
+{% endblock %}
+
+{% block content %}
+
+{% include "buttons/mainbutton.html" %}
+{% include "buttons/myprofilebutton.html" %}
+{% include "buttons/logoutbutton.html" %}
+
+<h1>Patients</h1>
+
+<table>
+  <tr class="first-table-row">
+    <th>№</th>
+    <th>Name</th>
+    <th>Diseases</th>
+    <th>Symptoms</th>
+  </tr>
+
+  {% for patient in patient_list %}
+    <tr>
+      <td>{{ forloop.counter }}</td>
+      <td>        
+        <a href="{% url 'users:profile' patient.user.id %}">
+          {{ patient.user }}
+        </a>
+      </td>
+      <td>
+        {% for disease in patient.diseases.all %}
+          {{ disease.name|linebreaks }}
+        {% endfor %}
+      </td>
+      <td>
+        {% for symptom in patient.symptoms.all %}
+          {{ symptom.name|linebreaks }}
+        {% endfor %} </td>
+      <td>
+        <form action="{% url 'users:patient_update' patient.user.id %}">
+          <button type="submit">Diagnose</button>
+        </form>
+      </td>
+      {% if user.employee.speciality == "manager" %}
+        <td>
+          <form action="{% url 'users:patient_delete' patient.user.id %}">
+            <button type="submit">Release</button>
+          </form>
+        </td>
+      {% endif %}
+    </tr>
+  {% endfor %}
+</table>
+{% if user.employee.speciality == "manager" %}
+  <form action="{% url 'users:patient_create' %}">
+    <button type="submit">Take New</button>
+  </form>
+{% endif %}
+
+{% endblock %}

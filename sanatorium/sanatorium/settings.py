@@ -57,11 +57,10 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'sanatorium.urls'
 
-#SETTINGS_PATH = os.path.dirname(os.path.dirname(__file__))
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR,'..', 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

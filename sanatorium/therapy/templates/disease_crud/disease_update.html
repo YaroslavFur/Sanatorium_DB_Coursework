@@ -1,19 +1,21 @@
 {% extends "base.html" %}
 
 {% block title %}
-Edit Profile
+{{ disease.name }}
 {% endblock %}
 
 {% block content %}
 
 {% include "buttons/mainbutton.html" %}
-{% include "buttons/profilebutton.html" %}
+{% include "buttons/myprofilebutton.html" %}
 {% include "buttons/logoutbutton.html" %}
 
-<h1>Edit Profile</h1>
+<h1>{{ disease.name }}</h1>
+
 <form method="post">
   {% csrf_token %}
   {{ form.as_p }}
   <button type="submit">Save</button>
 </form>
+
 {% endblock %}

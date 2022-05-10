@@ -1,27 +1,25 @@
 {% extends "base.html" %}
 
 {% block title %}
-Profile
+{{ profile }}
 {% endblock %}
 
 {% block content %}
 
 {% include "buttons/mainbutton.html" %}
+{% include "buttons/myprofilebutton.html" %}
 {% include "buttons/logoutbutton.html" %}
 
-<h1>My profile</h1>
+<h1>Profile</h1>
 <p>
-  {% if patient %}
-  Patient
+  {{ profile.first_name }}
+  {{ profile.second_name }}
+  {{ profile.email }}
+  {% if user.employee %}
+    {{ profile.employee.speciality }}
+    {% if profile.patient %}
+      Patient
+    {% endif %}
   {% endif %}
-  {% if employee %}
-  {{ employee.speciality }}
-  {% endif %}
-  {{ user.first_name }}
-  {{ user.second_name }}
-  {{ user.email }}
 </p>
-<form action="{% url 'users:profile_edit' %}">
-  <button type="submit">Edit Profile</button>
-</form>
 {% endblock %}

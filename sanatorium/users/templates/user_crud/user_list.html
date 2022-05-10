@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block title %}
+Users
+{% endblock %}
+
+{% block content %}
+
+{% include "buttons/mainbutton.html" %}
+{% include "buttons/myprofilebutton.html" %}
+{% include "buttons/logoutbutton.html" %}
+
+<h1>Users</h1>
+
+<table>
+  <tr class="first-table-row">
+    <th>№</th>
+    <th>Name</th>
+    <th>Email</th>
+    {% if user.employee %}
+      <th>Speciality</th>
+      <th>Patient</th>
+      <th>Diseases</th>
+      <th>Symptoms</th>
+    {% endif %}
+  </tr>
+
+  {% for loopuser in user_list %}
+    <tr>
+      <td>{{ forloop.counter }}</td>
+      <td>        
+        <a href="{% url 'users:profile' loopuser.id %}">
+          {{ loopuser }}
+        </a>
+      </td>
+      <td>{{ loopuser.email }}</td>
+      {% if user.employee %}
+        <td>{{ loopuser.employee.speciality }}</td>
+        {% if loopuser.patient %}
+          <td>Patient</td>
+          <td>
+            {% for disease in loopuser.patient.diseases.all %}
+              {{ disease.name|linebreaks }}
+            {% endfor %} </td>
+          </td>
+          <td>
+            {% for symptom in loopuser.patient.symptoms.all %}
+              {{ symptom.name|linebreaks }}
+            {% endfor %} </td>
+          </td>
+        {% endif %}
+      {% endif %}
+    </tr>
+  {% endfor %}
+</table>
+
+{% endblock %}

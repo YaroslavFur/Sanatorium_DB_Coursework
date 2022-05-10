@@ -9,7 +9,6 @@ class Disease(models.Model):
 
 
 class Symptom(models.Model):
-  diseases = models.ManyToManyField(Disease)
   name = models.CharField(max_length=254)
   description_ref = models.CharField(max_length=500, null=True, blank=True)
   

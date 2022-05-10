@@ -70,8 +70,8 @@ class Employee(models.Model):
 
 class Patient(models.Model):
   user = models.OneToOneField(User, on_delete=models.PROTECT, primary_key=True)
-  diseases = models.ManyToManyField(Disease)
-  symptomes = models.ManyToManyField(Symptom)
+  diseases = models.ManyToManyField(Disease, blank=True)
+  symptoms = models.ManyToManyField(Symptom, blank=True)
 
   def __str__(self):
     return f"{self.user.first_name} {self.user.second_name}"

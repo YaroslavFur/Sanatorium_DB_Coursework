@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block title %}
+Dismiss {{ employee.user }}
+{% endblock %}
+
+{% block content %}
+
+{% include "buttons/mainbutton.html" %}
+{% include "buttons/myprofilebutton.html" %}
+{% include "buttons/logoutbutton.html" %}
+
+<h1>Dismiss {{ employee.user }}</h1>
+
+<form method="post">
+  {% csrf_token %}
+  <p>Dismiss {{ employee.user }}?</p>
+  <button type="submit">Dismiss</button>
+</form>
+
+{% endblock %}
