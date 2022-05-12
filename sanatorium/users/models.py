@@ -1,9 +1,12 @@
 from statistics import mode
+from tkinter.tix import Tree
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 from django.db import models
 from django.utils import timezone
+from payments.models import Bill
 
 from therapy.models import Disease, Symptom
+from cooperation.models import Hospital
 
 
 class UserManager(BaseUserManager):
@@ -40,6 +43,7 @@ class User(AbstractBaseUser, PermissionsMixin):
   first_name = models.CharField(max_length=254)
   second_name = models.CharField(max_length=254)
   email = models.EmailField(max_length=254, unique=True)
+  hospitals = models.ManyToManyField(Hospital, blank=True)
   is_staff = models.BooleanField(default=False)
   is_superuser = models.BooleanField(default=False)
   is_active = models.BooleanField(default=True)
@@ -63,6 +67,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 class Employee(models.Model):
   user = models.OneToOneField(User, on_delete=models.PROTECT, primary_key=True)
   speciality = models.CharField(max_length=20)
+  bill = models.OneToOneField(Bill, on_delete=models.PROTECT)
 
   def __str__(self):
     return f"{self.speciality} {self.user.first_name} {self.user.second_name}"
@@ -72,6 +77,8 @@ class Patient(models.Model):
   user = models.OneToOneField(User, on_delete=models.PROTECT, primary_key=True)
   diseases = models.ManyToManyField(Disease, blank=True)
   symptoms = models.ManyToManyField(Symptom, blank=True)
+  hospital = models.ForeignKey(Hospital, on_delete=models.PROTECT, null=True, blank=True)
+  bill = models.OneToOneField(Bill, on_delete=models.PROTECT, null=True, blank=True)
 
   def __str__(self):
     return f"{self.user.first_name} {self.user.second_name}"

@@ -20,8 +20,10 @@ Users
     {% if user.employee %}
       <th>Speciality</th>
       <th>Patient</th>
+      <th>From Hospital</th>
       <th>Diseases</th>
       <th>Symptoms</th>
+      <th>Pays for Hospital</th>
     {% endif %}
   </tr>
 
@@ -39,6 +41,11 @@ Users
         {% if loopuser.patient %}
           <td>Patient</td>
           <td>
+            {% if loopuser.patient.hospital %}
+              {{ loopuser.patient.hospital }}
+            {% endif %}
+          </td>
+          <td>
             {% for disease in loopuser.patient.diseases.all %}
               {{ disease.name|linebreaks }}
             {% endfor %} </td>
@@ -47,6 +54,18 @@ Users
             {% for symptom in loopuser.patient.symptoms.all %}
               {{ symptom.name|linebreaks }}
             {% endfor %} </td>
+          </td>
+        {% endif %}
+        {% if user.employee.speciality == "manager" %}
+          <td>
+            {% for hospital in loopuser.hospitals.all %}
+              {{ hospital|linebreaks }}
+            {% endfor %}
+          </td>
+          <td>
+            <form action="{% url 'users:user_update' loopuser.id %}">
+              <button type="submit">Edit</button>
+            </form>
           </td>
         {% endif %}
       {% endif %}

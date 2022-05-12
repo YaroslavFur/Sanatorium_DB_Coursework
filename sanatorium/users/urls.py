@@ -5,7 +5,7 @@ from django.contrib.auth.decorators import login_required
 from .views import myprofile, signup, myprofile_edit, profile, \
                     EmployeeList, EmployeeCreate, EmployeeUpdate, EmployeeDelete, \
                     PatientList, PatientCreate, PatientUpdate, PatientDelete, \
-                    UserList
+                    UserList, UserUpdate
 
 app_name = 'users'
 
@@ -27,5 +27,6 @@ urlpatterns = [
     path('patient/<int:pk>/', login_required(PatientUpdate.as_view()), name='patient_update'),
     path('patient_delete/<int:pk>/', login_required(PatientDelete.as_view()), name='patient_delete'),
 
-    path('user_list/', login_required(UserList.as_view()), name='user_list')
+    path('user_list/', login_required(UserList.as_view()), name='user_list'),
+    path('user/<int:pk>/', login_required(UserUpdate.as_view()), name='user_update'),
 ]

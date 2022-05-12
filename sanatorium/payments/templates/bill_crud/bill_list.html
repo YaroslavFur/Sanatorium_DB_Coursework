@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block title %}
+Bills
+{% endblock %}
+
+{% block content %}
+
+{% include "buttons/mainbutton.html" %}
+{% include "buttons/myprofilebutton.html" %}
+{% include "buttons/logoutbutton.html" %}
+
+<h1>Bills</h1>
+
+<table>
+  <tr class="first-table-row">
+    <th>№</th>
+    <th>Info</th>
+    <th>Amount</th>
+    <th>Change</th>
+    <th>Current change</th>
+  </tr>
+
+  {% for bill in bill_list %}
+    <tr>
+      <td>{{ forloop.counter }}</td>
+      <td>{{ bill.info }}</td>
+      <td>{{ bill.amount|floatformat:1 }}</td>
+      <td>{{ bill.change }}</td>
+      <td>{{ bill.current_change }}</td>
+      {% if user.employee.speciality == "manager" %}
+        <td>
+          <form action="{% url 'payments:bill_update' bill.id %}">
+            <button type="submit">Edit</button>
+          </form>
+        </td>
+      {% endif %}
+    </tr>
+  {% endfor %}
+</table>
+
+{% endblock %}

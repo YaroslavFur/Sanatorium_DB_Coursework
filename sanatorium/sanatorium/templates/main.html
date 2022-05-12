@@ -21,11 +21,15 @@ Main
 <a href="{% url 'users:user_list' %}">Users</a>
 <a href="{% url 'therapy:disease_list' %}">Diseases</a>
 <a href="{% url 'therapy:symptom_list' %}">Symptoms</a>
+<a href="{% url 'cooperation:hospital_list' %}">Hospitals</a>
 {% if user.employee %}
 <a href="{% url 'users:patient_list' %}">Patients</a>
 {% endif %}
 {% if user.employee.speciality == "manager" %}
 <a href="{% url 'users:employee_list' %}">Employees</a>
+{% endif %}
+{% if user.employee.speciality == "manager" %}
+<a href="{% url 'payments:bill_list' %}">Bills</a>
 {% endif %}
 
 {% endblock %}

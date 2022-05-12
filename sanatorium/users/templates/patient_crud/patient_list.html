@@ -18,6 +18,7 @@ Patients
     <th>Name</th>
     <th>Diseases</th>
     <th>Symptoms</th>
+    <th>Hospital</th>
   </tr>
 
   {% for patient in patient_list %}
@@ -36,7 +37,9 @@ Patients
       <td>
         {% for symptom in patient.symptoms.all %}
           {{ symptom.name|linebreaks }}
-        {% endfor %} </td>
+        {% endfor %} 
+      </td>
+      <td>{{ patient.hospital.name }}</td>
       <td>
         <form action="{% url 'users:patient_update' patient.user.id %}">
           <button type="submit">Diagnose</button>

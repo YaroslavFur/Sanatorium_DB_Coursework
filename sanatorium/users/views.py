@@ -9,13 +9,16 @@ from users.models import Patient, Employee, User
 from django.views.generic.list import ListView
 from django.views.generic.edit import UpdateView, CreateView, DeleteView
 from django.contrib.auth.mixins import UserPassesTestMixin
+from payments.models import Bill
 
 from .forms import SignUpForm, ProfileEditForm
+
+patient_default_change = 30
+employee_default_change = -50
 
 
 def myprofile(request):
   context = {'user': request.user}
-
   return render(request, template_name='myprofile.html', context=context)
   
 
@@ -96,6 +99,14 @@ class EmployeeCreate(UserPassesTestMixin, CreateView):
   fields = ['user', 'speciality']
   template_name = 'employee_crud/employee_create.html'
 
+  def form_valid(self, form):
+    bill = Bill()
+    bill.info = f"Employee {form.instance}"
+    bill.change = employee_default_change
+    bill.save()
+    form.instance.bill = bill
+    return super(EmployeeCreate, self).form_valid(form)
+
   def get_success_url(self):
     return reverse('users:employee_list')
 
@@ -107,6 +118,14 @@ class EmployeeDelete(UserPassesTestMixin, DeleteView):
   model = Employee
   context_object_name = 'employee'
   template_name = 'employee_crud/employee_delete.html'
+
+  def form_valid(self, form):
+    success_url = self.get_success_url()
+    bill = self.object.bill
+    self.object.delete()
+    if bill != None:
+      bill.delete()
+    return HttpResponseRedirect(success_url)
 
   def get_success_url(self):
     return reverse('users:employee_list')
@@ -140,8 +159,17 @@ class PatientUpdate(UserPassesTestMixin, UpdateView):
 
 class PatientCreate(UserPassesTestMixin, CreateView):
   model = Patient
-  fields = ['user']
+  fields = ['user', 'diseases', 'symptoms', 'hospital']
   template_name = 'patient_crud/patient_create.html'
+
+  def form_valid(self, form):
+    if form.instance.hospital == None:
+      bill = Bill()
+      bill.info = f"Patient {form.instance}"
+      bill.change = patient_default_change
+      bill.save()
+      form.instance.bill = bill
+    return super(PatientCreate, self).form_valid(form)
 
   def get_success_url(self):
     return reverse('users:patient_list')
@@ -155,6 +183,14 @@ class PatientDelete(UserPassesTestMixin, DeleteView):
   context_object_name = 'patient'
   template_name = 'patient_crud/patient_delete.html'
 
+  def form_valid(self, form):
+    success_url = self.get_success_url()
+    bill = self.object.bill
+    self.object.delete()
+    if bill != None:
+      bill.delete()
+    return HttpResponseRedirect(success_url)
+
   def get_success_url(self):
     return reverse('users:patient_list')
 
@@ -167,3 +203,15 @@ class UserList(ListView):
   model = User
   context_object_name = "user_list"
   template_name = 'user_crud/user_list.html'
+
+class UserUpdate(UserPassesTestMixin, UpdateView):
+  model = User
+  fields = ['hospitals']
+  context_object_name = 'user_to_update'
+  template_name = 'user_crud/user_update.html'
+  
+  def get_success_url(self):
+    return reverse('users:user_list')
+
+  def test_func(self):
+    return MeAccessManager.am_i_manager(self)

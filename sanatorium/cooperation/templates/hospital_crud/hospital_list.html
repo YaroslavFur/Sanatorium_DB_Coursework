@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block title %}
+Hospitals
+{% endblock %}
+
+{% block content %}
+
+{% include "buttons/mainbutton.html" %}
+{% include "buttons/myprofilebutton.html" %}
+{% include "buttons/logoutbutton.html" %}
+
+<h1>Hospitals</h1>
+
+<table>
+  <tr class="first-table-row">
+    <th>№</th>
+    <th>Name</th>
+    <th>Patients</th>
+  </tr>
+
+  {% for hospital in hospital_list %}
+    <tr>
+      <td>{{ forloop.counter }}</td>
+      <td>{{ hospital.name }}</td>
+      {% if user.employee %}
+      <td>
+        {% for patient in hospital.patient_set.all %}
+          {{ patient|linebreaks }}
+        {% endfor %}
+      </td>
+      {% endif %}
+      {% if user.employee.speciality == "manager" %}
+        <td>
+          <form action="{% url 'cooperation:hospital_update' hospital.id %}">
+            <button type="submit">Edit</button>
+          </form>
+        </td>
+        <td>
+          <form action="{% url 'cooperation:hospital_delete' hospital.id %}">
+            <button type="submit">Delete</button>
+          </form>
+        </td>
+      {% endif %}
+    </tr>
+  {% endfor %}
+</table>
+{% if user.employee.speciality == "manager" %}
+  <form action="{% url 'cooperation:hospital_create' %}">
+    <button type="submit">Add Hospital</button>
+  </form>
+{% endif %}
+
+{% endblock %}

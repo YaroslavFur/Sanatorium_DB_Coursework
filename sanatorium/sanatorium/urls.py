@@ -22,9 +22,11 @@ from .views import main
 urlpatterns = [
     path('admin/', admin.site.urls),
 
-    path('users/', include('users.urls', namespace='users'), name='users'),
     path('accounts/', include('users.urls', namespace='accounts'), name='accounts'),
+    path('users/', include('users.urls', namespace='users'), name='users'),
     path('therapy/', include('therapy.urls', namespace='therapy'), name='therapy'),
+    path('cooperation/', include('cooperation.urls', namespace='cooperation'), name='cooperation'),
+    path('payments/', include('payments.urls', namespace='payments'), name='payments'),
 
     path('', login_required(main), name=''),
     path('main/', login_required(main), name='main')
