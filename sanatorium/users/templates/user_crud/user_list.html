@@ -23,7 +23,9 @@ Users
       <th>From Hospital</th>
       <th>Diseases</th>
       <th>Symptoms</th>
-      <th>Pays for Hospital</th>
+      {% if user.employee.speciality == "manager" %}
+        <th>Pays for Hospital</th>
+      {% endif %}
     {% endif %}
   </tr>
 

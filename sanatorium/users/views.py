@@ -13,9 +13,6 @@ from payments.models import Bill
 
 from .forms import SignUpForm, ProfileEditForm
 
-patient_default_change = 30
-employee_default_change = -50
-
 
 def myprofile(request):
   context = {'user': request.user}
@@ -99,14 +96,6 @@ class EmployeeCreate(UserPassesTestMixin, CreateView):
   fields = ['user', 'speciality']
   template_name = 'employee_crud/employee_create.html'
 
-  def form_valid(self, form):
-    bill = Bill()
-    bill.info = f"Employee {form.instance}"
-    bill.change = employee_default_change
-    bill.save()
-    form.instance.bill = bill
-    return super(EmployeeCreate, self).form_valid(form)
-
   def get_success_url(self):
     return reverse('users:employee_list')
 
@@ -118,14 +107,6 @@ class EmployeeDelete(UserPassesTestMixin, DeleteView):
   model = Employee
   context_object_name = 'employee'
   template_name = 'employee_crud/employee_delete.html'
-
-  def form_valid(self, form):
-    success_url = self.get_success_url()
-    bill = self.object.bill
-    self.object.delete()
-    if bill != None:
-      bill.delete()
-    return HttpResponseRedirect(success_url)
 
   def get_success_url(self):
     return reverse('users:employee_list')
@@ -162,15 +143,6 @@ class PatientCreate(UserPassesTestMixin, CreateView):
   fields = ['user', 'diseases', 'symptoms', 'hospital']
   template_name = 'patient_crud/patient_create.html'
 
-  def form_valid(self, form):
-    if form.instance.hospital == None:
-      bill = Bill()
-      bill.info = f"Patient {form.instance}"
-      bill.change = patient_default_change
-      bill.save()
-      form.instance.bill = bill
-    return super(PatientCreate, self).form_valid(form)
-
   def get_success_url(self):
     return reverse('users:patient_list')
 
@@ -182,14 +154,6 @@ class PatientDelete(UserPassesTestMixin, DeleteView):
   model = Patient
   context_object_name = 'patient'
   template_name = 'patient_crud/patient_delete.html'
-
-  def form_valid(self, form):
-    success_url = self.get_success_url()
-    bill = self.object.bill
-    self.object.delete()
-    if bill != None:
-      bill.delete()
-    return HttpResponseRedirect(success_url)
 
   def get_success_url(self):
     return reverse('users:patient_list')

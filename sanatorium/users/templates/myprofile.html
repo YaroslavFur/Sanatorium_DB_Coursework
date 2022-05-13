@@ -15,10 +15,13 @@ Profile
   {{ user.second_name }}
   {{ user.email }}
   {% if user.employee %}
-  {{ user.employee.speciality }}
+    {{ user.employee.speciality }}
   {% endif %}
   {% if user.patient %}
-  Patient
+    Patient
+  {% endif %}
+  {% if user.patient.hospital %}
+    from {{ user.patient.hospital }}
   {% endif %}
 </p>
 
@@ -39,11 +42,12 @@ Profile
 </p>
 
 {% if user.employee %}
-Your wages: {% widthratio user.employee.bill.amount|floatformat:1 1 -1 %} <!-- it's multiplication by -1 -->
+Your wages: {{ user.employee.bill.amount|floatformat:1 }}
 <form action="{% url 'payments:get_wages' user.employee.bill_id %}">
   <button type="submit">Get Wages</button>
 </form>
 {% endif %}
+
 <form action="{% url 'users:myprofile_edit' %}">
   <button type="submit">Edit Profile</button>
 </form>

@@ -11,7 +11,6 @@ from .models import Hospital
 from payments.models import Bill
 from meclasses.MeAccessManager import MeAccessManager
 
-hospital_default_change = 20
 
 class HospitalList(ListView):
   model = Hospital
@@ -37,14 +36,6 @@ class HospitalCreate(UserPassesTestMixin, CreateView):
   fields = ['name']
   template_name = 'hospital_crud/hospital_create.html'
 
-  def form_valid(self, form):
-    bill = Bill()
-    bill.info = f"Hospital {form.instance.name}"
-    bill.change = hospital_default_change
-    bill.save()
-    form.instance.bill = bill
-    return super(HospitalCreate, self).form_valid(form)
-
   def get_success_url(self):
     return reverse('cooperation:hospital_list')
 
@@ -56,14 +47,6 @@ class HospitalDelete(UserPassesTestMixin, DeleteView):
   model = Hospital
   context_object_name = 'hospital'
   template_name = 'hospital_crud/hospital_delete.html'
-
-  def form_valid(self, form):
-    success_url = self.get_success_url()
-    bill = self.object.bill
-    self.object.delete()
-    if bill != None:
-      bill.delete()
-    return HttpResponseRedirect(success_url)
 
   def get_success_url(self):
     return reverse('cooperation:hospital_list')

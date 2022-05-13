@@ -31,5 +31,8 @@ Main
 {% if user.employee.speciality == "manager" %}
 <a href="{% url 'payments:bill_list' %}">Bills</a>
 {% endif %}
+{% if user.employee.speciality == "manager" %}
+<a href="{% url 'payments:payment_list' %}">Payments</a>
+{% endif %}
 
 {% endblock %}

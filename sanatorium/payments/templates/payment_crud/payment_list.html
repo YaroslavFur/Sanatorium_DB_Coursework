@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block title %}
+Payments
+{% endblock %}
+
+{% block content %}
+
+{% include "buttons/mainbutton.html" %}
+{% include "buttons/myprofilebutton.html" %}
+{% include "buttons/logoutbutton.html" %}
+
+<h1>Payments</h1>
+
+<table>
+  <tr class="first-table-row">
+    <th>№</th>
+    <th>Info</th>
+    <th>Amount</th>
+    <th>Conducted</th>
+  </tr>
+
+  {% for payment in payment_list %}
+    <tr>
+      <td>{{ forloop.counter }}</td>
+      <td>{{ payment.info }}</td>
+      <td>{{ payment.amount|floatformat:1 }}</td>
+      <td>{{ payment.conducted|date:'M d, Y, H:i' }}</td>
+    </tr>
+  {% endfor %}
+</table>
+
+{% endblock %}

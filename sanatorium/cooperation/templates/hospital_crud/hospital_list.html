@@ -16,7 +16,9 @@ Hospitals
   <tr class="first-table-row">
     <th>№</th>
     <th>Name</th>
-    <th>Patients</th>
+    {% if user.employee %}
+      <th>Patients</th>
+    {% endif %}
   </tr>
 
   {% for hospital in hospital_list %}

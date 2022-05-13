@@ -1,12 +1,14 @@
-from statistics import mode
-from tkinter.tix import Tree
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 from django.db import models
 from django.utils import timezone
 from payments.models import Bill
+from meclasses.MeSignalManager import *
 
 from therapy.models import Disease, Symptom
 from cooperation.models import Hospital
+
+patient_default_change = 30
+employee_default_change = 50
 
 
 class UserManager(BaseUserManager):
@@ -67,10 +69,21 @@ class User(AbstractBaseUser, PermissionsMixin):
 class Employee(models.Model):
   user = models.OneToOneField(User, on_delete=models.PROTECT, primary_key=True)
   speciality = models.CharField(max_length=20)
-  bill = models.OneToOneField(Bill, on_delete=models.PROTECT)
+  bill = models.OneToOneField(Bill, on_delete=models.PROTECT, blank=True)
 
   def __str__(self):
     return f"{self.speciality} {self.user.first_name} {self.user.second_name}"
+
+  def save(self, *args, **kwargs):
+    if not hasattr(self, 'bill'):
+      bill = Bill()
+      bill.info = f"employee {self}"
+      bill.change = employee_default_change
+      bill.save()
+      self.bill = bill
+    super(Employee, self).save(*args, **kwargs)
+
+delete_employee_signal(Employee)
 
 
 class Patient(models.Model):
@@ -80,5 +93,16 @@ class Patient(models.Model):
   hospital = models.ForeignKey(Hospital, on_delete=models.PROTECT, null=True, blank=True)
   bill = models.OneToOneField(Bill, on_delete=models.PROTECT, null=True, blank=True)
 
+  def save(self, *args, **kwargs):
+    if self.hospital == None:
+      bill = Bill()
+      bill.info = f"patient {self}"
+      bill.change = patient_default_change
+      bill.save()
+      self.bill = bill
+    super(Patient, self).save(*args, **kwargs)
+
   def __str__(self):
     return f"{self.user.first_name} {self.user.second_name}"
+
+delete_patient_signal(Patient)
