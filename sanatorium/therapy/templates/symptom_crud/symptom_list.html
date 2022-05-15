@@ -1,22 +1,24 @@
-{% extends "base.html" %}
+{% extends "base_and_header_bar.html" %}
 
 {% block title %}
 Symptoms
 {% endblock %}
 
-{% block content %}
+{% block maintext %}
+Symptoms
+{% endblock %}
 
-{% include "buttons/mainbutton.html" %}
-{% include "buttons/myprofilebutton.html" %}
-{% include "buttons/logoutbutton.html" %}
-
-<h1>Symptoms</h1>
+{% block content_after_header_bar %}
 
 <table>
   <tr class="first-table-row">
     <th>№</th>
     <th>Name</th>
     <th>Description</th>
+    {% if user.employee %}
+      <th></th>
+      <th></th>
+    {% endif %}
   </tr>
 
   {% for symptom in symptom_list %}
@@ -32,21 +34,17 @@ Symptoms
       </td>
       {% if user.employee %}
         <td>
-          <form action="{% url 'therapy:symptom_update' symptom.id %}">
-            <button type="submit">Edit</button>
-          </form>
+          <a href="{% url 'therapy:symptom_update' symptom.id %}">Edit</a>
         </td>
         <td>
-          <form action="{% url 'therapy:symptom_delete' symptom.id %}">
-            <button type="submit">Delete</button>
-          </form>
+          <a href="{% url 'therapy:symptom_delete' symptom.id %}">Delete</a>
         </td>
       {% endif %}
     </tr>
   {% endfor %}
 </table>
 {% if user.employee %}
-  <form action="{% url 'therapy:symptom_create' %}">
+  <form style="margin-top: 20px;" action="{% url 'therapy:symptom_create' %}">
     <button type="submit">Add Symptom</button>
   </form>
 {% endif %}

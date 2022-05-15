@@ -1,22 +1,24 @@
-{% extends "base.html" %}
+{% extends "base_and_header_bar.html" %}
 
 {% block title %}
 Diseases
 {% endblock %}
 
-{% block content %}
+{% block maintext %}
+Diseases
+{% endblock %}
 
-{% include "buttons/mainbutton.html" %}
-{% include "buttons/myprofilebutton.html" %}
-{% include "buttons/logoutbutton.html" %}
-
-<h1>Diseases</h1>
+{% block content_after_header_bar %}
 
 <table>
   <tr class="first-table-row">
     <th>№</th>
     <th>Name</th>
     <th>Description</th>
+    {% if user.employee %}
+      <th></th>
+      <th></th>
+    {% endif %}
   </tr>
 
   {% for disease in disease_list %}
@@ -32,21 +34,17 @@ Diseases
       </td>
       {% if user.employee %}
         <td>
-          <form action="{% url 'therapy:disease_update' disease.id %}">
-            <button type="submit">Edit</button>
-          </form>
+          <a href="{% url 'therapy:disease_update' disease.id %}">Edit</a>
         </td>
         <td>
-          <form action="{% url 'therapy:disease_delete' disease.id %}">
-            <button type="submit">Delete</button>
-          </form>
+          <a href="{% url 'therapy:disease_delete' disease.id %}">Delete</a>
         </td>
       {% endif %}
     </tr>
   {% endfor %}
 </table>
 {% if user.employee %}
-  <form action="{% url 'therapy:disease_create' %}">
+  <form style="margin-top: 20px;" action="{% url 'therapy:disease_create' %}">
     <button type="submit">Add Disease</button>
   </form>
 {% endif %}

@@ -1,22 +1,22 @@
-{% extends "base.html" %}
+{% extends "base_and_header_bar.html" %}
 
 {% block title %}
 Employees
 {% endblock %}
 
-{% block content %}
+{% block maintext %}
+Employees
+{% endblock %}
 
-{% include "buttons/mainbutton.html" %}
-{% include "buttons/myprofilebutton.html" %}
-{% include "buttons/logoutbutton.html" %}
-
-<h1>Employees</h1>
+{% block content_after_header_bar %}
 
 <table>
   <tr class="first-table-row">
     <th>№</th>
     <th>Name</th>
     <th>Speciality</th>
+    <th></th>
+    <th></th>
   </tr>
 
   {% for employee in employee_list %}
@@ -29,21 +29,16 @@ Employees
       </td>
       <td>{{ employee.speciality }}</td>
       <td>
-        <form action="{% url 'users:employee_update' employee.user.id %}">
-          <button type="submit">Set speciality</button>
-        </form>
+        <a href="{% url 'users:employee_update' employee.user.id %}">Set Speciality</a>
       </td>
       <td>
-        <form action="{% url 'users:employee_delete' employee.user.id %}">
-          <button type="submit">Dismiss</button>
-        </form>
+        <a href="{% url 'users:employee_delete' employee.user.id %}">Dismiss</a>
       </td>
-
     </tr>
   {% endfor %}
 </table>
 <form action="{% url 'users:employee_create' %}">
-  <button type="submit">Hire New</button>
+  <button style="margin-top: 20px;" type="submit">Hire New</button>
 </form>
 
 {% endblock %}

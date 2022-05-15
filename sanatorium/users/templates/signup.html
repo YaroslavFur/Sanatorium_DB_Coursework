@@ -1,16 +1,22 @@
 {% extends "base.html" %}
-{% extends "mainbutton.html %"}
 
 {% block title %}
 SignUp
 {% endblock %}
 
 {% block content %}
-<h1>Sign up</h1>
+
+<h1>Sign Up</h1>
 <form method="post">
   {% csrf_token %}
-  {{ form.as_p }}
-  <button type="submit">Sign up</button>
+  {% for field in form %}
+    {{ field.label_tag }}
+    {{ field }}
+    {% for error in field.errors %}
+      <p>{{ error }}</p>
+    {% endfor %}
+  {% endfor %}
+  <button style="margin-bottom: 10px; margin-top: 10px; display: block;" type="submit">Sign up</button>
 </form>
 <a href="{% url 'users:login' %}">Log In</a>
 {% endblock %}

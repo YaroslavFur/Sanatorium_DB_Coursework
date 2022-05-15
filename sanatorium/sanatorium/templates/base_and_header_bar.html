@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block content %}
+<style>
+  .container {
+    padding: 0px;
+  }
+</style>
+
+<div class="header-bar">
+  <div>
+    <a href="{% url 'main' %}">Main<br></a>
+    <a href="{% url 'users:myprofile' %}">My Profile<br></a>
+    <a href="{% url 'users:logout' %}">Logout</a>
+  </div>
+  <div style="margin-left: 30px">
+    <h1>{% block maintext %}{% endblock %}</h1>
+  </div>
+</div>
+
+<div class="content">
+{% block content_after_header_bar %}
+
+{% endblock %}
+</div>
+{% endblock %}

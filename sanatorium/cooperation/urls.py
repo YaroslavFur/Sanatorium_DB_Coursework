@@ -10,4 +10,6 @@ urlpatterns = [
   path('hospital_create/', login_required(HospitalCreate.as_view()), name='hospital_create'),
   path('hospital/<int:pk>/', login_required(HospitalUpdate.as_view()), name='hospital_update'),
   path('hospital_delete/<int:pk>/', login_required(HospitalDelete.as_view()), name='hospital_delete'),
+
+  
 ]

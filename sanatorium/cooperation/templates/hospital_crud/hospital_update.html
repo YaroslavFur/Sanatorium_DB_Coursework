@@ -1,16 +1,14 @@
-{% extends "base.html" %}
+{% extends "base_and_header_bar.html" %}
 
 {% block title %}
 {{ hospital.name }}
 {% endblock %}
 
-{% block content %}
+{% block maintext %}
+Edit {{ hospital.name }}
+{% endblock %}
 
-{% include "buttons/mainbutton.html" %}
-{% include "buttons/myprofilebutton.html" %}
-{% include "buttons/logoutbutton.html" %}
-
-<h1>{{ hospital.name }}</h1>
+{% block content_after_header_bar %}
 
 <form method="post">
   {% csrf_token %}

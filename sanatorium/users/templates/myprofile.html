@@ -1,54 +1,52 @@
-{% extends "base.html" %}
+{% extends "base_and_header_bar.html" %}
 
 {% block title %}
 Profile
 {% endblock %}
 
-{% block content %}
+{% block maintext %}
+My Profile
+{% endblock %}
 
-{% include "buttons/mainbutton.html" %}
-{% include "buttons/logoutbutton.html" %}
+{% block content_after_header_bar %}
 
-<h1>My profile</h1>
-<p>
-  {{ user.first_name }}
-  {{ user.second_name }}
-  {{ user.email }}
-  {% if user.employee %}
-    {{ user.employee.speciality }}
-  {% endif %}
-  {% if user.patient %}
-    Patient
-  {% endif %}
-  {% if user.patient.hospital %}
-    from {{ user.patient.hospital }}
-  {% endif %}
-</p>
+{{ user.first_name }} {{ user.second_name }} <br>
+{{ user.email }} <br>
+{% if user.employee %}
+  {{ user.employee.speciality }} <br>
+{% endif %}
+{% if user.patient %}
+  patient
+{% endif %}
+{% if user.patient.hospital %}
+  from {{ user.patient.hospital }} <br>
+{% endif %}
+
+<form action="{% url 'users:myprofile_edit' %}">
+  <button style="margin-bottom: 15px; margin-top: 15px;" type="submit">Edit Profile</button>
+</form>
+<hr>
 
 {% if user.patient.bill_id %}
-<p>Your bill: {{ user.patient.bill.amount|floatformat:1 }}</p>
+Your bill: {{ user.patient.bill.amount|floatformat:1 }}
 <form action="{% url 'payments:pay_bill' user.patient.bill_id %}">
-  <button type="submit">Pay My Bill</button>
+  <button style="margin-bottom: 15px;" type="submit">Pay My Bill</button>
 </form>
 {% endif %}
 
 {% for hospital in user.hospitals.all %}
-<p>
-  {{ hospital }} bill: {{ hospital.bill.amount|floatformat:1 }}
-  <form action="{% url 'payments:pay_hospital_bill' hospital.bill_id %}">
-    <button type="submit">Pay Hospital Bill</button>
-  </form>
-  {% endfor %}
-</p>
+{{ hospital }} bill: {{ hospital.bill.amount|floatformat:1 }}
+<form action="{% url 'payments:pay_hospital_bill' hospital.bill_id %}">
+  <button style="margin-bottom: 15px;" type="submit">Pay Hospital Bill</button>
+</form>
+{% endfor %}
+
 
 {% if user.employee %}
 Your wages: {{ user.employee.bill.amount|floatformat:1 }}
 <form action="{% url 'payments:get_wages' user.employee.bill_id %}">
-  <button type="submit">Get Wages</button>
+  <button style="margin-bottom: 15px;" type="submit">Get Wages</button>
 </form>
 {% endif %}
 
-<form action="{% url 'users:myprofile_edit' %}">
-  <button type="submit">Edit Profile</button>
-</form>
 {% endblock %}

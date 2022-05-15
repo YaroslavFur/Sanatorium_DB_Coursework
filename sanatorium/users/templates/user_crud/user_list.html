@@ -1,16 +1,20 @@
-{% extends "base.html" %}
+{% extends "base_and_header_bar.html" %}
 
 {% block title %}
 Users
 {% endblock %}
 
-{% block content %}
+{% block maintext %}
+Users
+{% endblock %}
 
-{% include "buttons/mainbutton.html" %}
-{% include "buttons/myprofilebutton.html" %}
-{% include "buttons/logoutbutton.html" %}
+{% block content_after_header_bar %}
 
-<h1>Users</h1>
+<style>
+.container{
+  max-width: 1500px;
+}
+</style>
 
 <table>
   <tr class="first-table-row">
@@ -25,6 +29,7 @@ Users
       <th>Symptoms</th>
       {% if user.employee.speciality == "manager" %}
         <th>Pays for Hospital</th>
+        <th></th>
       {% endif %}
     {% endif %}
   </tr>
@@ -40,36 +45,36 @@ Users
       <td>{{ loopuser.email }}</td>
       {% if user.employee %}
         <td>{{ loopuser.employee.speciality }}</td>
-        {% if loopuser.patient %}
-          <td>Patient</td>
-          <td>
-            {% if loopuser.patient.hospital %}
-              {{ loopuser.patient.hospital }}
-            {% endif %}
-          </td>
-          <td>
-            {% for disease in loopuser.patient.diseases.all %}
-              {{ disease.name|linebreaks }}
-            {% endfor %} </td>
-          </td>
-          <td>
-            {% for symptom in loopuser.patient.symptoms.all %}
-              {{ symptom.name|linebreaks }}
-            {% endfor %} </td>
-          </td>
-        {% endif %}
-        {% if user.employee.speciality == "manager" %}
-          <td>
-            {% for hospital in loopuser.hospitals.all %}
-              {{ hospital|linebreaks }}
-            {% endfor %}
-          </td>
-          <td>
-            <form action="{% url 'users:user_update' loopuser.id %}">
-              <button type="submit">Edit</button>
-            </form>
-          </td>
-        {% endif %}
+        <td>
+          {% if loopuser.patient %}
+            patient
+          {% endif %}
+        </td>
+        <td>
+          {% if loopuser.patient.hospital %}
+            {{ loopuser.patient.hospital }}
+          {% endif %}
+        </td>
+        <td>
+          {% for disease in loopuser.patient.diseases.all %}
+            {{ disease.name|linebreaks }}
+          {% endfor %}
+        </td>
+        <td>
+          {% for symptom in loopuser.patient.symptoms.all %}
+            {{ symptom.name|linebreaks }}
+          {% endfor %}
+        </td>
+      {% endif %}
+      {% if user.employee.speciality == "manager" %}
+        <td>
+          {% for hospital in loopuser.hospitals.all %}
+            {{ hospital|linebreaks }}
+          {% endfor %}
+        </td>
+        <td>
+          <a href="{% url 'users:user_update' loopuser.id %}">Edit</a>
+        </td>
       {% endif %}
     </tr>
   {% endfor %}

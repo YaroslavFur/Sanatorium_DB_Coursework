@@ -1,38 +1,38 @@
-{% extends "base.html" %}
+{% extends "base_and_header_bar.html" %}
 
 {% block title %}
 Main
 {% endblock %}
 
-{% block content %}
+{% block maintext %}
+Main
+{% endblock %}
 
-{% include "buttons/myprofilebutton.html" %}
-{% include "buttons/logoutbutton.html" %}
+{% block content_after_header_bar %}
 
-<h1>
-  MAIN
-</h1>
-<p>
-  Hell o
-  I'm
-  {{ user }}
-  And I can do this:
-</p>
-<a href="{% url 'users:user_list' %}">Users</a>
-<a href="{% url 'therapy:disease_list' %}">Diseases</a>
-<a href="{% url 'therapy:symptom_list' %}">Symptoms</a>
-<a href="{% url 'cooperation:hospital_list' %}">Hospitals</a>
+<a style="font-size: larger;" href="{% url 'users:user_list' %}">Users</a>
+<br>
+<a style="font-size: larger;" href="{% url 'therapy:disease_list' %}">Diseases</a>
+<br>
+<a style="font-size: larger;" href="{% url 'therapy:symptom_list' %}">Symptoms</a>
+<br>
+<a style="font-size: larger;" href="{% url 'cooperation:hospital_list' %}">Hospitals</a>
+<br>
 {% if user.employee %}
-<a href="{% url 'users:patient_list' %}">Patients</a>
+<a style="font-size: larger;" href="{% url 'users:patient_list' %}">Patients</a>
+<br>
 {% endif %}
 {% if user.employee.speciality == "manager" %}
-<a href="{% url 'users:employee_list' %}">Employees</a>
+<a style="font-size: larger;" href="{% url 'users:employee_list' %}">Employees</a>
+<br>
 {% endif %}
 {% if user.employee.speciality == "manager" %}
-<a href="{% url 'payments:bill_list' %}">Bills</a>
+<a style="font-size: larger;" href="{% url 'payments:bill_list' %}">Bills</a>
+<br>
 {% endif %}
 {% if user.employee.speciality == "manager" %}
-<a href="{% url 'payments:payment_list' %}">Payments</a>
+<a style="font-size: larger;" href="{% url 'payments:payment_list' %}">Payments</a>
+<br>
 {% endif %}
 
 {% endblock %}

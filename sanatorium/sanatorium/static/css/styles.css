@@ -1,0 +1,127 @@
+body {
+  background-color: #FAFAFA;
+  font-family: 'Nunito', sans-serif;
+  padding-top: 50px;
+  font-size: larger;
+}
+
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6
+  {
+  font-family: 'Raleway', sans-serif;
+}
+
+p {
+  color: rgb(15, 21, 26);
+}
+
+.container{
+  max-width: 1100px;
+  margin: auto;
+  background-color: #fff;
+  padding: 50px;
+  -webkit-box-shadow: 2px 2px 13px -4px rgba(0, 0, 0, 0.21);
+  box-shadow: 2px 2px 13px -4px rgba(0, 0, 0, 0.21);
+}
+
+.container a {
+  text-decoration: none;
+}
+
+.header-bar {
+  display: flex;
+  justify-content: left;
+  color: #fff;
+  padding: 20px;
+  border-radius: 5px 5px 0 0;
+  background: linear-gradient(90deg, rgb(7, 195, 228) 0%, rgb(0, 114, 190) 43%, rgb(0, 114, 190) 100%);
+}
+
+.header-bar a {
+  color: rgb(247, 247, 247);
+  font-size: larger;
+}
+
+.content {
+  padding: 20px;
+}
+
+.content a {
+  font-size: large;
+  color: rgb(0, 0, 150);
+}
+
+table {
+  row-gap: 0ch;
+  column-gap: 0px;
+  border-collapse: collapse;
+  border: 1px solid rgb(200, 220, 230);
+  width: 100%;
+}
+
+th, td {
+  border-left: 1px solid;        
+  border-left-color: rgb(200, 220, 230);
+  padding: 5px;
+  text-align: center;
+}
+
+
+th {
+  background-color: rgb(150, 195, 228);
+}
+
+tbody tr:nth-child(odd) {
+  background-color: rgb(220, 240, 248);
+}
+
+button {
+  font-family: 'Nunito', sans-serif;
+  font-size: large;
+  color: white;
+  width: 100;
+  border: none;
+  background-color: rgb(0, 153, 255);
+  border-radius: 10px;
+  cursor: pointer;
+  padding: 8px;
+}
+
+tr:hover {
+  background-color: rgb(150, 195, 228);
+}
+
+tbody tr:nth-child(odd):hover {
+  background-color: rgb(150, 195, 228);
+}
+
+button:hover {
+  background-color: transparent;
+  color: black;
+}
+
+input,
+textarea {
+  border: 1px solid rgb(0, 100, 160);
+  border-radius: 5px;
+  padding: 5px;
+  width: 70%;
+  font-size: large;
+}
+
+label {
+  padding-top: 10px !important;
+  display: block;
+}
+
+select {
+  border: 1px solid rgb(0, 100, 160);
+  border-radius: 5px;
+  padding: 5px;
+  font-size: large;
+}
